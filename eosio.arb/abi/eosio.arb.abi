@@ -72,18 +72,18 @@
    ],
    "tables": [
     {
-      "name": "forums",       //The name of the table, determined during instantiation. 
-      "type": "arb_info", 			//The table's corresponding struct
-      "index_type": "i64", //The type of primary index of this table
-      "key_names" : ["owner"], //An array of key names, length must equal length of key_types member
-      "key_types" : ["uint64"]  //An array of key types that correspond to key names array member, length of array must equal length of key names array.
+      "name": "forums",       
+      "type": "arb_info", 
+      "index_type": "i64",
+      "key_names" : ["owner"],
+      "key_types" : ["uint64"]
     },
     {
-      "name": "arbitrators",       //The name of the table, determined during instantiation. 
-      "type": "arb_info", 			//The table's corresponding struct
-      "index_type": "i64", //The type of primary index of this table
-      "key_names" : ["owner"], //An array of key names, length must equal length of key_types member
-      "key_types" : ["uint64"]  //An array of key types that correspond to key names array member, length of array must equal length of key names array.
+      "name": "arbitrators",  
+      "type": "arb_info",
+      "index_type": "i64",
+      "key_names" : ["owner"],
+      "key_types" : ["uint64"] 
     }
    ],
    "ricardian_clauses": [],
