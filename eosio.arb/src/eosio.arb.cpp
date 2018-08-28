@@ -1,24 +1,8 @@
-#include <eosio.system/eosio.arb.hpp>
+#include <eosio.arb/eosio.arb.hpp>
 #include <eosiolib/dispatcher.hpp>
 
 namespace eosioarb {
 
-   system_arb::system_arb( account_name s )
-   :_forums(_self,_self),
-    _arbitators(_self,_self)
-   {
-     
-   }
-  /*
-   void system_arb::rmvproducer( account_name producer ) {
-      require_auth( _self );
-      auto prod = _producers.find( producer );
-      eosio_assert( prod != _producers.end(), "producer not found" );
-      _producers.modify( prod, 0, [&](auto& p) {
-            p.deactivate();
-         });
-   }
-  */
   /**
     *  This method will create a forum and arb_info object for 'forum'
     *
@@ -27,43 +11,79 @@ namespace eosioarb {
     *  @pre authority of forum to register
     *
     */
-   void system_arb::regfoum( const account_name forum, const eosio::public_key& forum_key, const std::string& url ) {
+   void system_arb::regforum( const account_name forum, const eosio::public_key& forum_key, const std::string& url ) {
       eosio_assert( url.size() < 512, "url too long" );
       eosio_assert( forum_key != eosio::public_key(), "public key should not be the default value" );
       require_auth( forum );
 
-      auto frm = _forums.find( forum );
+      /*auto frm = _forums.find( forum );
 
       if ( frm != _forums.end() ) {
-          _forums.modify( frm, forum, [&]( arb_info& info ){
-               info.pub_key = forum_key;
-               info.is_active    = true;
-               info.url          = url;
-            });
+        _forums.modify( frm, forum, [&]( arb_info& info ){
+             info.arb_key      = forum_key;
+             info.is_active    = true;
+             info.url          = url;
+          });
       } else {
-         _forums.emplace( forum, [&]( arb_info& info ){
-               info.arb         = forum;
-               info.pub_key  = forum_key;
+        _forums.emplace( forum, [&]( arb_info& info ){
+               info.owner         = forum;
+               info.arb_key       = forum_key;
                info.is_active     = true;
                info.url           = url;
-         });
+        });
       }
+      */
    }
 
    void system_arb::unregforum( const account_name forum ) {
       require_auth( forum );
 
       const auto& frm = _forums.get( forum, "forum not found" );
-
+      /*
       _forums.modify( frm, 0, [&]( arb_info& info ){
             info.deactivate();
       });
+      */
+   }
+  
+  void system_arb::regarb( const account_name arbitrator, const eosio::public_key& arbitrator_key, const std::string& url ) {
+      eosio_assert( url.size() < 512, "url too long" );
+      eosio_assert( arbitrator_key != eosio::public_key(), "public key should not be the default value" );
+      require_auth( arbitrator );
+      /*
+      auto frm = _arbitrators.find( arbitrator );
+
+      if ( frm != _arbitrators.end() ) {
+        _arbitrators.modify( frm, arbitrator, [&]( arb_info& info ){
+             info.arb_key      = arbitrator_key;
+             info.is_active    = true;
+             info.url          = url;
+          });
+      } else {
+        _arbitrators.emplace( arbitrator, [&]( arb_info& info ){
+               info.owner         = arbitrator;
+               info.arb_key       = arbitrator_key;
+               info.is_active     = true;
+               info.url           = url;
+        });
+      }
+      */
+   }
+
+   void system_arb::unregarb( const account_name arbitrator ) {
+      require_auth( arbitrator );
+      /*
+      const auto& frm = _arbitrators.get( arbitrator, "arbitrator not found" );
+      
+      _arbitrators.modify( frm, 0, [&]( arb_info& info ){
+            info.deactivate();
+      });
+      */
    }
    
-} /// eosio.system
+} /// eosio
 
 
 EOSIO_ABI( eosioarb::system_arb,
-     // voting.cpp
-     (regproducer)(unregprod)
+     (regforum)(unregforum)(regarb)(unregarb)
 )

@@ -5,47 +5,47 @@
 #pragma once
 
 #include <eosiolib/asset.hpp>
-#include <eosiolib/time.hpp>
 #include <eosiolib/privileged.hpp>
-#include <eosiolib/singleton.hpp>
-
+#include <eosiolib/public_key.hpp>
+#include <eosiolib/types.hpp>
+#include <eosiolib/eosio.hpp>
 #include <string>
 
 namespace eosioarb {
-
-   using eosio::asset;
-   using eosio::indexed_by;
-   using eosio::const_mem_fun;
-   using eosio::block_timestamp;
-
-   struct arb_info {
-     account_name          arb;
-     eosio::public_key     pub_key;
-     std::string           url;
-     bool                  is_active = true;
-     void deactivate()     {pub_key = public_key(); is_active = false};
-   }
+  using eosio::public_key;
   
-   typedef eosio::multi_index< N(forum), arb_info>  forum_table;
-   typedef eosio::multi_index< N(arbitrator), arb_info>  arbitrator_table;
+
+  struct arb_info {
+    account_name          owner;
+    eosio::public_key     arb_key;
+    bool                  is_active = true;
+    std::string           url;
+    
+    uint64_t primary_key()const { return owner; }
+    void deactivate()           { arb_key = public_key(); is_active = false; };
+    EOSLIB_SERIALIZE( arb_info, (owner)(arb_key)(is_active)(url))
+  };
   
-   class system_arb : public native {
-      private:
-         forum_table            _forums;
-         arbitrator_table       _arbitrators;
+  typedef eosio::multi_index< N(forums), arb_info>  forum_table;
+  typedef eosio::multi_index< N(arbitrators), arb_info>  arbitrator_table;
+  
+  class system_arb : public eosio::contract {
+    private:
+      forum_table            _forums;
+      arbitrator_table       _arbitrators;
          
-      public:
-         system_arb( account_name s );
-         ~system_arb();
+    public:
+      system_arb( account_name self )
+        :contract(self),
+         _forums(_self, _self),
+         _arbitrators(_self, _self){}
+      //~system_arb();
 
-         // functions defined in voting.cpp
-
-         void regforum( const account_name forum, const public_key& forum_key, const std::string& url, uint16_t location );
-         void unregforum( const account_name forum );
+      void regforum( const account_name forum, const public_key& forum_key, const std::string& url );
+      void unregforum( const account_name forum );
      
-     /*         void regarbitrator( const account_name arbitrator, const public_key& arbitrator_key, const std::string& url, uint16_t location );
-
-		void unregarb( const account_name forum ); */
+      void regarb( const account_name arbitrator, const public_key& arbitrator_key, const std::string& url );
+      void unregarb( const account_name arbitrator ); 
 
    };
 
