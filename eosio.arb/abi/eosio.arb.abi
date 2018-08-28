@@ -6,7 +6,7 @@
     }
    ],
    "structs": [ {
-       "name" : "arb_info".
+       "name" : "arb_info",
        "base" : "",
        "fields" : [
          {"name" : "owner", "type" : "account_name" },
