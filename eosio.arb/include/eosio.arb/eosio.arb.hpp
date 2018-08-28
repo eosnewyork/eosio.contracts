@@ -14,7 +14,6 @@
 namespace eosioarb {
   using eosio::public_key;
   
-
   struct arb_info {
     account_name          owner;
     eosio::public_key     arb_key;
@@ -23,7 +22,7 @@ namespace eosioarb {
     
     uint64_t primary_key()const { return owner; }
     void deactivate()           { arb_key = public_key(); is_active = false; };
-    EOSLIB_SERIALIZE( arb_info, (owner)(arb_key)(is_active)(url))
+    //EOSLIB_SERIALIZE( arb_info, (owner)(arb_key)(is_active)(url))
   };
   
   typedef eosio::multi_index< N(forums), arb_info>  forum_table;
