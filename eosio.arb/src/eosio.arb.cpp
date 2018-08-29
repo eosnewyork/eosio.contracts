@@ -1,8 +1,14 @@
 #include <eosio.arb/eosio.arb.hpp>
-#include <eosiolib/dispatcher.hpp>
 
 namespace eosioarb {
 
+  system_arb::system_arb( account_name self )
+        :contract(self),
+         _forums(_self, _self),
+         _arbitrators(_self, _self)
+  {
+  }
+  
   /**
     *  This method will create a forum and arb_info object for 'forum'
     *
@@ -11,7 +17,7 @@ namespace eosioarb {
     *  @pre authority of forum to register
     *
     */
-   void system_arb::regforum( const account_name forum, const eosio::public_key& forum_key, const std::string& url ) {
+  void system_arb::regforum( const account_name forum, const eosio::public_key& forum_key, const std::string& url ) {
       eosio_assert( url.size() < 512, "url too long" );
       eosio_assert( forum_key != eosio::public_key(), "public key should not be the default value" );
       require_auth( forum );
@@ -20,16 +26,16 @@ namespace eosioarb {
 
       if ( frm != _forums.end() ) {
         _forums.modify( frm, forum, [&]( arb_info& info ){
-             info.arb_key      = forum_key;
-             info.is_active    = true;
-             info.url          = url;
+            info.arb_key      = forum_key;
+            info.is_active    = true;
+            info.url          = url;
           });
       } else {
         _forums.emplace( forum, [&]( arb_info& info ){
-               info.owner         = forum;
-               info.arb_key       = forum_key;
-               info.is_active     = true;
-               info.url           = url;
+            info.owner         = forum;
+            info.arb_key       = forum_key;
+            info.is_active     = true;
+            info.url           = url;
         });
       }
       */
@@ -46,7 +52,7 @@ namespace eosioarb {
       */
    }
   
-  void system_arb::regarb( const account_name arbitrator, const eosio::public_key& arbitrator_key, const std::string& url ) {
+  void system_arb::regarb( const account_name arbitrator, const eosio::public_key& arbitrator_key, const std::string& url) {
       eosio_assert( url.size() < 512, "url too long" );
       eosio_assert( arbitrator_key != eosio::public_key(), "public key should not be the default value" );
       require_auth( arbitrator );
@@ -61,10 +67,10 @@ namespace eosioarb {
           });
       } else {
         _arbitrators.emplace( arbitrator, [&]( arb_info& info ){
-               info.owner         = arbitrator;
-               info.arb_key       = arbitrator_key;
-               info.is_active     = true;
-               info.url           = url;
+             info.owner         = arbitrator;
+             info.arb_key       = arbitrator_key;
+             info.is_active     = true;
+             info.url           = url;
         });
       }
       */
