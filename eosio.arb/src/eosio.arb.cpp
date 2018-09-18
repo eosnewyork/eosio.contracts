@@ -17,7 +17,7 @@ namespace eosioarb {
     *  @pre authority of forum to register
     *
     */
-  void system_arb::regforum( const account_name forum, const eosio::public_key& forum_key, const std::string& url ) {
+  void system_arb::regforum( account_name forum, const public_key& forum_key, const string& url ) {
     eosio_assert( url.size() < 512, "url too long" );
     eosio_assert( forum_key != eosio::public_key(), "public key should not be the default value" );
     require_auth( forum );
@@ -40,7 +40,7 @@ namespace eosioarb {
     }
   }
 
-  void system_arb::unregforum( const account_name forum ) {
+  void system_arb::unregforum( account_name forum ) {
     require_auth( forum );
 
     const auto& frm = _forums.get( forum, "forum not found" );
@@ -50,7 +50,7 @@ namespace eosioarb {
       });
   }
   
-  void system_arb::regarb( const account_name arbitrator, const eosio::public_key& arbitrator_key, const std::string& url) {
+  void system_arb::regarb( account_name arbitrator, const public_key& arbitrator_key, const string& url) {
     eosio_assert( url.size() < 512, "url too long" );
     eosio_assert( arbitrator_key != eosio::public_key(), "public key should not be the default value" );
     require_auth( arbitrator );
@@ -73,7 +73,7 @@ namespace eosioarb {
     }
   }
 
-  void system_arb::unregarb( const account_name arbitrator ) {
+  void system_arb::unregarb( account_name arbitrator ) {
     require_auth( arbitrator );
     
     const auto& frm = _arbitrators.get( arbitrator, "arbitrator not found" );
