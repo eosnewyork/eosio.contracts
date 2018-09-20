@@ -45,5 +45,5 @@ Once I, `{{ arbitrator }}` have accepted an agreement to arbitrate a dispute, I 
 
 If I, `{{ arbitrator }}` withdraw prior to the completion of the arbitration, whether upon my initiative or upon the request of one or more of the parties, I will take reasonable steps to protect the interests of the parties in the arbitration, including return of evidentiary materials and protection of confidentiality.
 
-Where I, `{{ arbitrator }}`, are contracted directly by parties to a dispute I will communicate any award resulting from such a dispute on-chain to elected Block Producers from account ID {{ arbitrator }}. Proof of consent to arbitrate will accompany any such award.
+Where I, `{{ arbitrator }}`, are contracted directly by parties to a dispute I will communicate any award resulting from such a dispute on-chain to elected Block Producers from account ID `{{ arbitrator }}`. Proof of consent to arbitrate will accompany any such award.
 
