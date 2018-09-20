@@ -12,6 +12,7 @@
 
 namespace eosioarb {
   using eosio::public_key;
+  using std::string;
 
   struct forum_info {
     account_name          owner;
